@@ -1,0 +1,30 @@
+<div class="grid grid-pad">
+<!-- -->
+  <label>Enter your favourite Artist:</label>
+  <input type="text" [(ngModel)]="query" placeholder="enter your artist name" />
+  <button (click)="fetchAlbums()">Search</button>
+ <!--   <label>Enter your favourite Playlist:</label> -->
+ <!--  <input type="text" [(ngModel)]="playlistName" placeholder="enter your playlist name" />
+  <button (click)="fetchPlaylists()">Search</button> -->
+  <button [hidden]="showAlbums" (click)="showAlbum()">View Albums</button>
+  <br/>
+  <br/>
+  <div [hidden]="!showAlbums" *ngFor="let album of albums" (click)="getTracks(album)" class="col-1-2">
+  	<div class="module hero">
+      <h4>{{album.name}}</h4>
+    </div> 
+  </div>
+  <div *ngFor="let playlist of playlists" (click)="getTracksOfPlaylist(playlist)" class="col-1-2">
+  	<div class="module hero">
+      	<h4>{{playlist.name}}</h4>
+    </div>
+  </div>
+  <div [hidden]="showAlbums" *ngFor="let track of tracks" class="col-1-3">
+   <div class="module hero">
+      <h4>{{track.name}}</h4>
+      <audio controls>
+      <source src='{{track.preview_url}}'/>
+      </audio>
+   </div>
+  </div>
+    </div>

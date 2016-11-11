@@ -1,0 +1,17 @@
+branch-defaults:
+  master:
+    environment: SpotiCloud-dev
+    group_suffix: null
+environment-defaults:
+  spoticloud-env:
+    branch: null
+    repository: null
+global:
+  application_name: SpotiCloud
+  branch: null
+  default_ec2_keyname: Abhi
+  default_platform: 64bit Amazon Linux 2016.09 v3.1.0 running Node.js
+  default_region: us-west-2
+  profile: eb-cli
+  repository: null
+  sc: git
