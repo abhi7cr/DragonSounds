@@ -54,14 +54,19 @@ app.listen(app.get('port'), function() {
 
 app.get('/albums', function (req, res) {
     var options = { params: req.query };
+    console.log("ALBUMS: %j", options);
     requestify.get('https://api.spotify.com/v1/search/', options)
         .then(function (response) {
         results = response.getBody();
-        res.send(results);
+        console.log("RESULTS: %j", results);
+        res.send(results);}
+    , function(error){
+        console.log("ERROR: %j", error);
     });
 });
 app.get('/tracksByAlbum/:id', function (req, res) {
     var albumId = req.params.id;
+    console.log("ALBUM ID: %j", albumId);
     requestify.get('https://api.spotify.com/v1/albums/' + albumId)
         .then(function (response) {
         results = response.getBody();

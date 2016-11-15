@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Jsonp } from '@angular/http';
+import { Http, Response, Headers, Request, RequestOptions, RequestMethod, URLSearchParams, Jsonp} from '@angular/http';
 //import { HERO } from './hero';
 //import { HEROES } from './mock-heroes';
 import 'rxjs/add/operator/toPromise';
@@ -23,8 +23,10 @@ export class HeroService {
 	client_id = "0bfbd70607c94e12b1e5863b2cbc9b2b";
 	client_secret = "1a5c8cbfa0ff4229bc9ff3502759c242";
 	scope = 'user-read-private user-read-email';
-	redirect_uri = "http://localhost:3000/dashboard"
-	form = {}
+	redirect_uri = "http://localhost:8081/dashboard"
+	form = {};
+	headers: Headers = null;
+	baseUrl: string = "http://localhost:8081"
 	
   
     //getToken();
@@ -35,17 +37,41 @@ export class HeroService {
 	}
 
 	private parseResponse(response: any) {
+		console.log(response);
 			return response;
 	}
 
 	getAlbums(query: string) {
-		  return this.http.get(this.spotifySearchUrl+'q='+query+'&type=album')
+		 let params = {query: query};
+
+      this.headers = new Headers();
+      this.headers.append('Content-Type', 'application/json');
+      //this.headers.append('Parameter',  params);
+
+
+      let options = new RequestOptions({
+          method: RequestMethod.Get,
+          headers: this.headers,
+          search: new URLSearchParams('q='+query+'&type=album')
+      });
+		  return this.http.get(this.baseUrl+'/albums', options)
 		  				.toPromise()
 		  				.then(this.parseResponse)
 		  				.catch(this.handleError)
 	}
 	getTracks(id: number) {
- 	 return this.http.get(this.spotifyAlbumUrl+id)
+
+	  let params = {id: id};
+
+      this.headers = new Headers();
+      this.headers.append('Content-Type', 'application/json');
+
+	 let options = new RequestOptions({
+          method: RequestMethod.Get,
+          headers: this.headers
+      });
+
+ 	 return this.http.get(this.baseUrl+'/tracksByAlbum/'+id, options)
 		  				.toPromise()
 		  				.then(response=>this.parseResponse(response))
 		  				.catch(this.handleError)
